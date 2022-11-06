@@ -1,0 +1,42 @@
+it is for authorization not authentication 
+
+authentication - make sure username psswd is correct for logging
+its the process of verifying who someone is
+
+authorization - making sure that user that sends reqs to server is the same user that logged in during authentication
+it is the process of verifying what resources a user has access to 
+
+this is done using session, session id is sent down in cookies
+when client makes req, session id is checked in server memory and says  whether user has session id, finds user and does the authorization to make sure user has access 
+
+but jwt instead of cookies uses jwt to do authorization
+
+
+two types of authentication -> sesssion and jwt
+
+main diff between both is that in jwt, nothing is stored in server
+
+decoded version of jwt has 3 parts:-
+header -> determines the algo that we use for decoding and encoding
+payload -> info stored in token
+signature -> to verify the token has not been changed by client before it is sent back 
+
+1) header
+- 1st part before period(.) and is 64 bit encoded
+- useful only for signature part of jwt 
+2) payload
+- 2nd part after 1st period 
+- has different fields(data) that we want to store in token
+3) verify signature
+- verifies that user did not mess with token 
+- it does this by taking first two portions of token, base 64 encodes it 
+using the algorithm mentioned in header and your secret key 
+
+when server gets the info from  client, it decodes the top two sections,
+base 64 encodes both of them, combine them with secret key and hash it using algo and then check if this matches last portion of jwt. if it matches then key is not tempared with
+
+
+check jwt.io for more
+
+ 
+
