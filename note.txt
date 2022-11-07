@@ -1,0 +1,7 @@
+- if we visit route '/profile' we are unable to view it, cause it is secured route, we need to be authenticated
+- suppose we register as username: user password: password123
+- then we login and we get our jwt token
+- using that token we can view the '/profile' route
+
+- but, here is the interesting thing:-
+- if someone gets the token, no matter if he is registered or logged in with correct credentials or not, he can view that secured route
