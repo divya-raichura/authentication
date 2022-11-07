@@ -4,7 +4,7 @@ const { createToken } = require("../middleware/authMiddleware");
 // const cookieParser = require("cookie-parser");
 // app.use(cookieParser());
 
-let tokens = [];
+// let tokens = [];
 
 const register = async (req, res) => {
   const { username, password } = req.body;
@@ -14,6 +14,11 @@ const register = async (req, res) => {
       password,
       idOrCreatedAt: Date.now().toString(),
     });
+    // why did I first create user and then update for hashed?
+    // because if I directly create using hash then :-
+    // the validators that I put in db user model won't help
+    // if user gives null in password then also it's hash will be more
+    // than six chars and pass validations
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.updateOne({ username }, { password: hashedPassword });
     user.password = hashedPassword;
@@ -53,10 +58,10 @@ const login = async (req, res) => {
     //   httpOnly: true,
     // });
 
-    const newToken = { username, accessToken };
-    tokens.push(newToken);
-    console.log(newToken);
-    console.log(tokens);
+    // const newToken = { username, accessToken };
+    // tokens.push(newToken);
+    // console.log(newToken);
+    // console.log(tokens);
 
     return res
       .status(200)
@@ -74,7 +79,7 @@ const getProfile = (req, res) => {
 };
 
 const getUsers = async (req, res) => {
-  console.log(tokens);
+  // console.log(tokens);
   try {
     const users = await User.find();
     res.status(200).json(users);

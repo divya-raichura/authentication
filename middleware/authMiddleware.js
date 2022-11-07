@@ -3,7 +3,8 @@ const { sign, verify } = require("jsonwebtoken");
 const createToken = (user) => {
   const accessToken = sign(
     { username: user.username, id: user.id },
-    process.env.SECRET_TOKEN
+    process.env.SECRET_TOKEN,
+    { expiresIn: "30d" }
   );
 
   return accessToken;
@@ -11,6 +12,8 @@ const createToken = (user) => {
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
+
+  console.log(authHeader);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ msg: "not authorized" });
